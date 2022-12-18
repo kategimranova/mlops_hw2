@@ -8,13 +8,15 @@ docker run -d -p 8000:8000 mlops_hw2
 
 ```
 
-(сервер запустится на http://localhost:8000/)
-
-(для документации: http://localhost:8000/docs)
+(сервер запустится на http://localhost:8000/; для документации: http://localhost:8000/docs)
 
 2. Через docker-compose
+```bash
 sudo docker-compose up -d
+```
 
 3. Через докерхаб: https://hub.docker.com/repository/docker/kattgim/mlops
+```bash
 docker pull kattgim/mlops
+```
 
