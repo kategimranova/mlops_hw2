@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from typing_extensions import Literal
 from models.model import KnnModel, LogRegModel
+import os
 
 app = FastAPI()
 
@@ -36,8 +37,14 @@ class KnnParameters(BaseModel):
 
 
 class LogRegParameters(BaseModel):
-    '''Pydantic параметры для выбора гиперпараметра для Логистической Регрессии'''
+    '''Pydantic параметры для выбора гиперпараметра
+    для Логистической Регрессии'''
     penalty: Literal['l1', 'l2', 'none']
+
+
+class DeletionParameters(BaseModel):
+    '''Pydantic параметры для удаления моделей'''
+    model_name: Literal['KNN', 'LogisticRegression']
 
 
 @app.on_event("startup")
@@ -52,6 +59,23 @@ def load_model():
 def get_available_models():
     '''Список доступных для обучения классов моделей'''
     return {"models": [knn_model.description, logreg_model.description]}
+
+
+@app.delete("/delete_model")
+def delete_model(model_name: DeletionParameters):
+    '''Удаление моделей'''
+    if model_name.__dict__['model_name'] == 'KNN':
+        if os.path.exists(knn_model.path_to_model):
+            os.remove(knn_model.path_to_model)
+            return "success"
+        else:
+            return "nothing to delete"
+    else:
+        if os.path.exists(logreg_model.path_to_model):
+            os.remove(logreg_model.path_to_model)
+            return "success"
+        else:
+            return "nothing to delete"
 
 
 @app.post('/train/knn')
