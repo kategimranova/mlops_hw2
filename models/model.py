@@ -45,6 +45,7 @@ class KnnModel:
         )
         with open(self.path_to_model, 'wb') as f:
             pickle.dump(self.model, f)
+        return self
 
     def predict_(self, input):
         if os.path.exists(self.path_to_model):
@@ -100,6 +101,7 @@ class LogRegModel:
         )
         with open(self.path_to_model, 'wb') as f:
             pickle.dump(self.model, f)
+        return self
 
     def predict_(self, input):
         if os.path.exists(self.path_to_model):
