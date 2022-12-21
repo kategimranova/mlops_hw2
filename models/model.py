@@ -4,7 +4,10 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
 import pandas as pd
 import os
+from os.path import dirname, abspath
 from sklearn.model_selection import train_test_split
+
+path = dirname(dirname(abspath(__file__)))
 
 
 class KnnModel:
@@ -13,12 +16,16 @@ class KnnModel:
     ...
     Attributes
     ----------
-    Methods
+    Methods:
+    train: training model
+    predict_: predicting result
+    _set_model_path: setting path to a model
+    get_parameters: getting parameters of a KNN model (n_neighbors)
     '''
     def __init__(self, n_neighbors=3):
         self.n_neighbors = n_neighbors
-        self.path_to_model = 'models/knn/knn_model.pkl'
-        self.data = pd.read_csv("data/train.csv", index_col='PassengerId')
+        self.path_to_model = path + '/models/knn/knn_model.pkl'
+        self.data = pd.read_csv(path + "/data/train.csv", index_col='PassengerId')
         self.data_train, self.data_test = train_test_split(
             self.data, test_size=200, random_state=42
         )
@@ -64,12 +71,16 @@ class LogRegModel:
     ...
     Attributes
     ----------
-    Methods
+    Methods:
+    train: training model
+    predict_: predicting result
+    _set_model_path: setting path to a model
+    get_parameters: getting parameters of a Logistic regression model (penalty)
     '''
     def __init__(self, penalty='l2'):
         self.penalty = penalty
-        self.path_to_model = 'models/logreg/logreg_model.pkl'
-        self.data = pd.read_csv("data/train.csv", index_col='PassengerId')
+        self.path_to_model = path + '/models/logreg/logreg_model.pkl'
+        self.data = pd.read_csv(path + "/data/train.csv", index_col='PassengerId')
         self.data_train, self.data_test = train_test_split(
             self.data, test_size=200, random_state=42
         )
